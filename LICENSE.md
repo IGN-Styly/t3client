@@ -2,9 +2,8 @@
 
 Copyright © 2024 <IGN-Styly>
 
-Permission is hereby granted, free of charge, to any person that is not a company, obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction but they are obligated to share any source modifications, including without limitation the rights to use, copy, modify, merge, publish, distribute, of Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software in legal means and associated documentation files (the “Software”), to deal in the Software without restriction but they are obligated to share any source modifications, including without limitation the rights to use, copy, modify, merge, publish, distribute, of Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-The software may not be used for commercial reasons except when giver express permission from the project owner.
 
 Any modifications of this software has to be distributed free for all, and be accessible if not already within 30 days of notice or modification.
 
