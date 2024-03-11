@@ -8,7 +8,7 @@
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts",
     "lint": "tsc --noEmit",
-    "release": "npm run build && npx changesets publish"
+    "release": "npm run build && npx changeset publish"
   },
   "author": "IGN-Styly",
   "license": "t3",
