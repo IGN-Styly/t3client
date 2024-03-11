@@ -11,6 +11,9 @@
     "release": "npm run build && npx changeset publish"
   },
   "author": "IGN-Styly",
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "t3",
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
