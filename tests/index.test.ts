@@ -1,8 +1,19 @@
-import { describe, expect } from "vitest"
-import sum from "@/index"
+import { describe, expect } from "vitest";
+import { WalletInstance, BuiltWalletSchema,RedirectWalletSchema,ClientRedirect } from "@/types";
 
-describe("Sum",(it)=>{
-  it("should return 3",()=>{
-    expect(sum(1,2)).toBe(3)
+describe("Wallet Generation", (it) => {
+  // Normal Wallets
+  it("zmr Schema", () => {
+    const wallet = new WalletInstance();
+    wallet.create();
+
+    expect(BuiltWalletSchema.parse(wallet.BuiltWallet)).toBe(
+      wallet.BuiltWallet
+    );
+  });
+  // Redirect Wallets
+  it("zrr Schema", ()=>{
+    const RedirectWallet = ClientRedirect();
+    expect(RedirectWalletSchema.parse(RedirectWallet)).toBe(RedirectWallet);
   })
-})
+});
