@@ -1,6 +1,7 @@
 import { Hex, bytesToHex } from "@noble/curves/abstract/utils";
 import { ed25519 } from "@noble/curves/ed25519";
 import { BuiltWallet, HexBytes } from "./types";
+import { sign } from "./utils";
 
 class WalletInstance {
     BuiltWallet!:BuiltWallet; // 68 characters
@@ -53,10 +54,9 @@ class NetworkInstance {
     
     }
     async getBalance(Token:string){
-
-        const response = await fetch(this.url + "/api/v0/getWallet",{method:"POST",body:JSON.stringify({})} );
+        const response = await fetch(this.url + "/api/v0/getWallet",{method:"POST",body:JSON.stringify({id:this.WalletInstance.BuiltWallet,signature:sign(this.WalletInstance, await this.getToken())})} );
         const data = await response.json();
-        this.balance = BigInt(data.balance);
+        this.balance = BigInt(data.data.balance);
     }
 }
 export {WalletInstance,NetworkInstance}
