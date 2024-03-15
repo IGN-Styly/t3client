@@ -1,5 +1,6 @@
 import { describe, expect } from "vitest";
-import { WalletInstance, BuiltWalletSchema,RedirectWalletSchema,ClientRedirect } from "@/types";
+import { BuiltWalletSchema,RedirectWalletSchema,ClientRedirect } from "@/types";
+import { WalletInstance } from "@/index";
 
 describe("Wallet Generation", (it) => {
   // Normal Wallets
