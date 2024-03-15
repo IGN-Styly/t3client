@@ -36,6 +36,7 @@ class WalletInstance {
 class NetworkInstance {
     url!: string;
     balance!: BigInt;
+    token!: string;
     WalletInstance!: WalletInstance;
     built: boolean;
 
@@ -45,6 +46,7 @@ class NetworkInstance {
     init(url:string,WalletInstance:WalletInstance){
         this.url = url;
         this.WalletInstance = WalletInstance;
+        this.renewToken();
         this.built = true;
     }
     async getToken(){
@@ -53,9 +55,15 @@ class NetworkInstance {
         return data.token;
     
     }
+    renewToken(){
+        this.getToken().then((token)=>{
+            this.token = token;
+        })
+    }
     async getBalance(Token:string){
-        const response = await fetch(this.url + "/api/v0/getWallet",{method:"POST",body:JSON.stringify({id:this.WalletInstance.BuiltWallet,signature:sign(this.WalletInstance, await this.getToken())})} );
+        const response = await fetch(this.url + "/api/v0/getWallet",{method:"POST",body:JSON.stringify({id:this.WalletInstance.BuiltWallet,signature:sign(this.WalletInstance, this.token)})} );
         const data = await response.json();
+        this.renewToken();
         this.balance = BigInt(data.data.balance);
     }
 }
