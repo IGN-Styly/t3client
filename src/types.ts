@@ -20,4 +20,4 @@ const TokenSchema = z.string().uuid();
 function ClientRedirect(){
    return "zrrx" + v4().replace(/\-/g, "")+v4().replace(/\-/g, "");
 }
-export {RedirectWalletSchema,TokenType,BuiltWalletSchema,BuiltWallet,ClientRedirect,HexBytes}
+export { RedirectWalletSchema, TokenType, BuiltWalletSchema, BuiltWallet, ClientRedirect, HexBytes, Hex };
