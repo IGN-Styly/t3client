@@ -50,7 +50,7 @@ describe("Wallet tests", (it) => {
   })
   it("TRX test",async()=>{
     const wallet0 = new WalletInstance();
-    wallet0.init(pkey) //replace with your own private key for your own test wallet with 100 ZMR
+    wallet0.init("pkey") //replace with your own private key for your own test wallet with 100 ZMR
    
     const wallet1= new WalletInstance();
     wallet1.create();
