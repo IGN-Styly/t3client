@@ -3,7 +3,7 @@ import {hexToBytes,bytesToHex} from '@noble/hashes/utils'
 import {ed25519} from '@noble/curves/ed25519'
 import {v4} from 'uuid'
 import { W } from 'vitest/dist/reporters-MmQN-57K';
-type Hex = string;
+import { Hex } from '@noble/curves/abstract/utils';
 type HexBytes = Uint8Array;
 
 

@@ -7,12 +7,25 @@ class WalletInstance {
     BuiltWallet!:BuiltWallet; // 68 characters
     PrivateKey!:Hex;
     PublicKey!:Hex;
+    Published:boolean
     Built:boolean;
 
     constructor(){
         this.Built = false;
+        this.Published = false
     }
 
+    async publish(url:string){
+        if(this.Published===false){
+            const response = await fetch(url + "/api/v0/createWallet",{method:"POST",headers: {"Content-Type": "application/json"},body:JSON.stringify({"id":this.BuiltWallet})});
+            const data = await JSON.parse(await response.text());
+            if(data.success===false){
+            return false
+            }
+            this.Published=true}
+        
+    }
+    
     create(){
         this.PrivateKey = bytesToHex(ed25519.utils.randomPrivateKey());
         this.PublicKey = bytesToHex(ed25519.getPublicKey(this.PrivateKey));
@@ -43,28 +56,43 @@ class NetworkInstance {
     constructor(){
         this.built = false;
     }
-    init(url:string,WalletInstance:WalletInstance){
+    async init(url:string,WalletInstance:WalletInstance){
         this.url = url;
         this.WalletInstance = WalletInstance;
-        this.renewToken();
+        if(WalletInstance.Published===false){
+            await this.WalletInstance.publish(this.url)
+        }
+        await this.renewToken();
         this.built = true;
     }
-    async getToken(){
-        const response = await fetch(this.url + "/api/v0/getToken",{method:"POST",body:JSON.stringify({id:this.WalletInstance.BuiltWallet})});
-        const data = await response.json();
-        return data.token;
     
-    }
-    renewToken(){
-        this.getToken().then((token)=>{
-            this.token = token;
-        })
+    async renewToken(){
+        const response = await fetch(this.url + "/api/v0/getToken",{method:"POST",headers: {"Content-Type": "application/json"},body:JSON.stringify({"id":this.WalletInstance.BuiltWallet})});
+        const data = await JSON.parse(await response.text());
+        this.token=data.data.token;
     }
     async getBalance(Token:string){
-        const response = await fetch(this.url + "/api/v0/getWallet",{method:"POST",body:JSON.stringify({id:this.WalletInstance.BuiltWallet,signature:sign(this.WalletInstance, this.token)})} );
-        const data = await response.json();
-        this.renewToken();
+        const response = await fetch(this.url + "/api/v0/getWallet",{method:"POST",headers: {"Content-Type": "application/json"},body:JSON.stringify({id:this.WalletInstance.BuiltWallet,signature:sign(this.WalletInstance, this.token)})} );
+        const data = await JSON.parse(await response.text());
+        await this.renewToken();
         this.balance = BigInt(data.data.balance);
     }
+    async send(trx:Transaction){
+        
+    }
+
 }
+
+class Transaction {
+    origin:string
+    destination:string
+    amt:BigInt
+
+    constructor(origin:string,destination:string,amt:BigInt){
+        this.origin=origin,
+        this.destination=destination
+        this.amt = amt
+    }
+}
+
 export {WalletInstance,NetworkInstance}
