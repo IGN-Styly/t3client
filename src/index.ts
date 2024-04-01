@@ -48,7 +48,7 @@ class WalletInstance {
 }
 class NetworkInstance {
     url!: string;
-    balance!: BigInt;
+    balance!: number;
     token!: string;
     WalletInstance!: WalletInstance;
     built: boolean;
@@ -71,14 +71,18 @@ class NetworkInstance {
         const data = await JSON.parse(await response.text());
         this.token=data.data.token;
     }
-    async getBalance(Token:string){
+    async getBalance(){
         const response = await fetch(this.url + "/api/v0/getWallet",{method:"POST",headers: {"Content-Type": "application/json"},body:JSON.stringify({id:this.WalletInstance.BuiltWallet,signature:sign(this.WalletInstance, this.token)})} );
         const data = await JSON.parse(await response.text());
         await this.renewToken();
-        this.balance = BigInt(data.data.balance);
+        this.balance =Number(data.data.balance);
     }
     async send(trx:Transaction){
-        
+        const response = await fetch(this.url + "/api/v0/trx",{method:"POST",headers: {"Content-Type": "application/json"},body:JSON.stringify({id:this.WalletInstance.BuiltWallet,signature:sign(this.WalletInstance, this.token),amt:trx.amt.valueOf(),destination:trx.destination})} );
+        var data = await response.json()
+        console.log(data.error)
+        await this.renewToken();
+        await this.getBalance()
     }
 
 }
@@ -86,13 +90,13 @@ class NetworkInstance {
 class Transaction {
     origin:string
     destination:string
-    amt:BigInt
+    amt:number
 
-    constructor(origin:string,destination:string,amt:BigInt){
+    constructor(origin:string,destination:string,amt:number){
         this.origin=origin,
         this.destination=destination
         this.amt = amt
     }
 }
 
-export {WalletInstance,NetworkInstance}
+export {WalletInstance,NetworkInstance,Transaction}

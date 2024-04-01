@@ -3,7 +3,7 @@
 - [x] Create Wallet
 - [x] Sign and Verify
 - [x] Publish Wallet
-- [ ] Support both schemas
+- [x] Support both schemas
 - [x] Get Balance
-- [ ] Send a transaction
+- [x] Send a transaction
 - [ ] Redirect Wallets

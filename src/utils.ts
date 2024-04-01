@@ -9,5 +9,5 @@ function sign(WalletInstance:WalletInstance, message: string): string {
 function verify(PubKey:Hex,Signature:Hex,msg:string):boolean{
     return ed25519.verify(Signature,sha512(msg),PubKey);
 }
-
-export {sign,verify}
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+export {sign,verify,sleep}
